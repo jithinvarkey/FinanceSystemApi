@@ -1,0 +1,54 @@
+DIAMOND FINANCE — Module 1 + 4 overlay onto a fresh Laravel 12 install
+======================================================================
+
+You already created a clean Laravel project at:
+    D:\xamp new\htdocs\diamond-finance-clean
+
+This overlay adds the Finance application code on top of it.
+
+--------------------------------------------------------------------
+STEP 1 — Copy the application code
+--------------------------------------------------------------------
+Copy these THREE folders from this overlay INTO diamond-finance-clean,
+overwriting/merging when Windows asks:
+
+    app\         ->  diamond-finance-clean\app\
+    database\    ->  diamond-finance-clean\database\
+    routes\      ->  diamond-finance-clean\routes\
+
+(The app\ and database\ folders MERGE with the existing ones — say
+"replace files in destination" if prompted. routes\api.php will be added.)
+
+--------------------------------------------------------------------
+STEP 2 — Copy the three wiring files from _wiring\
+--------------------------------------------------------------------
+    _wiring\app.php             ->  diamond-finance-clean\bootstrap\app.php   (REPLACE)
+    _wiring\DatabaseSeeder.php  ->  diamond-finance-clean\database\seeders\DatabaseSeeder.php   (REPLACE)
+    _wiring\.env                ->  diamond-finance-clean\.env   (REPLACE)
+
+--------------------------------------------------------------------
+STEP 3 — Open a terminal in diamond-finance-clean and run:
+--------------------------------------------------------------------
+    cd /d "D:\xamp new\htdocs\diamond-finance-clean"
+
+    composer require laravel/sanctum
+    php artisan key:generate
+
+Then create an EMPTY MySQL database named  diamond_finance  in phpMyAdmin
+(http://localhost/phpmyadmin -> New -> diamond_finance -> Create).
+
+    php artisan migrate --seed
+    php artisan serve
+
+API runs at http://localhost:8000
+
+--------------------------------------------------------------------
+NOTES
+--------------------------------------------------------------------
+- .env is preset to DB_PORT=3307 (your XAMPP MySQL port). If your MySQL
+  is on 3306, change that line.
+- The API routes require an authenticated Sanctum user. To test endpoints
+  without building login yet, you can temporarily remove 'auth:sanctum'
+  from routes/api.php line ~20, leaving just ['throttle:60,1'].
+- Frontend lives separately in the diamond-finance\frontend folder from
+  the original ZIP; run npm install + npm start there, it points at :8000.
